@@ -1,0 +1,20 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>icons/right-arrow (1).png</file>
+    <file>icons/right-arrow.png</file>
+    <file>icons/reverse-triangle.png</file>
+    <file>icons/edit (1).png</file>
+    <file>icons/edit.png</file>
+    <file>icons/restore.png</file>
+    <file>icons/alarm-clock.png</file>
+    <file>icons/flash.png</file>
+    <file>icons/folder.png</file>
+    <file>icons/transfer.png</file>
+    <file>icons/download.png</file>
+    <file>icons/tool.png</file>
+    <file>icons/convert.png</file>
+    <file>icons/maximize.png</file>
+    <file>icons/minimize.png</file>
+    <file>icons/close.png</file>
+  </qresource>
+</RCC>
