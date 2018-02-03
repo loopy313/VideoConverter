@@ -10,7 +10,7 @@
 #include "ffmpegtest.h"
 
 class QPushButton;
-
+class videoinfoWidget;
 namespace Ui {
 class VideoEnncoder;
 }
@@ -31,6 +31,9 @@ private:
 	QStringList fileList;
 	QObjectList menuList;
 	QPoint m_pos;
+	QVBoxLayout* vBoxlayout=nullptr;
+	QList<videoinfoWidget*> lists;
+
 public:
 	explicit VideoEnncoder(QWidget *parent = 0);
 	~VideoEnncoder();	

@@ -1,6 +1,7 @@
 #include "videoenncoder.h"
 #include "ui_videoenncoder.h"
 #include "ffmpegtest.h"
+#include "videoinfowidget.h"
 #include<QFileDialog>
 #include<QDesktopWidget>
 #include<Windows.h>
@@ -16,7 +17,7 @@ VideoEnncoder::VideoEnncoder(QWidget *parent) :
 
 	RestoreBtn=new QPushButton(ui->title);
 	QIcon restoreIcon;
-	restoreIcon.addFile(QStringLiteral(":/icons/icons/restore.png"));
+	restoreIcon.addFile(QStringLiteral(":/icons/restore.png"));
 	RestoreBtn->setObjectName(tr("RestoreIcon"));
 	RestoreBtn->setIcon(restoreIcon);
 	RestoreBtn->setFlat(true);
@@ -39,7 +40,7 @@ VideoEnncoder::VideoEnncoder(QWidget *parent) :
 	connect(signalMapper,SIGNAL(mapped(int)),this,SLOT(stackSelect(int)));
 	connect(ui->AddFileBtn,&QPushButton::clicked,this,&VideoEnncoder::findFiles);
 	connect(this,&VideoEnncoder::fileListChanged,&VideoEnncoder::extractThumbnail);
-
+	connect(ui->ConvertingDilsplayBtn,&QPushButton::clicked,this,&VideoEnncoder::showVideoInfo);
 }
 
 VideoEnncoder::~VideoEnncoder()
@@ -56,7 +57,21 @@ void VideoEnncoder::findFiles()
 
 void VideoEnncoder::showVideoInfo()
 {
-
+	delete ui->verticalLayout_4;
+	if(!vBoxlayout)
+	{
+		vBoxlayout=new QVBoxLayout();
+	}
+	for(int i=0;i<5;i++)
+	{
+		videoinfoWidget* v=new videoinfoWidget(this);
+		lists.push_back(v);
+	}
+	for(auto& l:lists)
+	{
+		vBoxlayout->addWidget(l);
+	}
+	ui->scrollAreaWidgetContents->setLayout(vBoxlayout);
 }
 
 void VideoEnncoder::extractThumbnail()

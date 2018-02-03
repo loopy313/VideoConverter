@@ -5,12 +5,9 @@ videoinfoWidget::videoinfoWidget(QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::videoinfoWidget)
 {
-	QRect rt,tri_rt;
-	QPoint pt,tr_pt;
-	QSize size;
+	setWindowFlags(Qt::CustomizeWindowHint);
+
 	ui->setupUi(this);
-
-
 }
 videoinfoWidget::~videoinfoWidget()
 {

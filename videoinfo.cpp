@@ -17,9 +17,28 @@ videoInfo::videoInfo(QString filename)
 	this->filename=new char[temp.size()];
 	strcpy_s(this->filename,strlen(this->filename),temp.data());
 	av_register_all();
+
 }
 
-qint64 videoInfo::getDuration() {
+videoInfo::videoInfo(videoInfo &src)
+{
+
+}
+
+void videoInfo::operator=(const videoInfo &)
+{
+
+}
+/*
+videoInfo *videoInfo::getInstance()
+{
+	if(!videoInfoManager)
+	{
+		videoInfoManager=new videoInfo()
+	}
+}
+*/
+qint64 videoInfo::Duration() {
 
 	AVFormatContext *pFormatCtx = NULL;
 	int             videoStream;

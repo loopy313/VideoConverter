@@ -149,14 +149,14 @@
             </sizepolicy>
            </property>
            <property name="styleSheet">
-            <string notr="true">color:white</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string/>
            </property>
            <property name="icon">
             <iconset resource="icons.qrc">
-             <normaloff>:/icons/icons/convert.png</normaloff>:/icons/icons/convert.png</iconset>
+             <normaloff>:/icons/convert.png</normaloff>:/icons/convert.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -179,7 +179,7 @@
            </property>
            <property name="icon">
             <iconset resource="icons.qrc">
-             <normaloff>:/icons/icons/download.png</normaloff>:/icons/icons/download.png</iconset>
+             <normaloff>:/icons/download.png</normaloff>:/icons/download.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -205,7 +205,7 @@
            </property>
            <property name="icon">
             <iconset resource="icons.qrc">
-             <normaloff>:/icons/icons/transfer.png</normaloff>:/icons/icons/transfer.png</iconset>
+             <normaloff>:/icons/transfer.png</normaloff>:/icons/transfer.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -231,7 +231,7 @@
            </property>
            <property name="icon">
             <iconset resource="icons.qrc">
-             <normaloff>:/icons/icons/tool.png</normaloff>:/icons/icons/tool.png</iconset>
+             <normaloff>:/icons/tool.png</normaloff>:/icons/tool.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -305,7 +305,7 @@
              </property>
              <property name="icon">
               <iconset resource="icons.qrc">
-               <normaloff>:/icons/icons/minimize.png</normaloff>:/icons/icons/minimize.png</iconset>
+               <normaloff>:/icons/minimize.png</normaloff>:/icons/minimize.png</iconset>
              </property>
              <property name="flat">
               <bool>true</bool>
@@ -325,7 +325,7 @@
              </property>
              <property name="icon">
               <iconset resource="icons.qrc">
-               <normaloff>:/icons/icons/maximize.png</normaloff>:/icons/icons/maximize.png</iconset>
+               <normaloff>:/icons/maximize.png</normaloff>:/icons/maximize.png</iconset>
              </property>
              <property name="flat">
               <bool>true</bool>
@@ -351,7 +351,7 @@
              </property>
              <property name="icon">
               <iconset resource="icons.qrc">
-               <normaloff>:/icons/icons/close.png</normaloff>:/icons/icons/close.png</iconset>
+               <normaloff>:/icons/close.png</normaloff>:/icons/close.png</iconset>
              </property>
              <property name="flat">
               <bool>true</bool>
@@ -603,7 +603,7 @@
       <string notr="true">background:#3d393a</string>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="ConvertPage">
       <layout class="QGridLayout" name="gridLayout_4">
@@ -639,24 +639,10 @@
             <x>0</x>
             <y>0</y>
             <width>1200</width>
-            <height>642</height>
+            <height>489</height>
            </rect>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_4">
-           <item>
-            <widget class="QLabel" name="label_3">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>1page</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
+          <layout class="QVBoxLayout" name="verticalLayout_4"/>
          </widget>
         </widget>
        </item>
@@ -692,8 +678,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>69</width>
-            <height>69</height>
+            <width>100</width>
+            <height>30</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_3">
@@ -710,7 +696,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="page">
+     <widget class="QWidget" name="TransferPage">
       <layout class="QGridLayout" name="gridLayout_10">
        <item row="0" column="0">
         <widget class="QLabel" name="label_5">
@@ -721,7 +707,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="page_2">
+     <widget class="QWidget" name="ToolboxPage">
       <layout class="QGridLayout" name="gridLayout_7">
        <item row="0" column="0">
         <widget class="QLabel" name="label_6">
@@ -758,7 +744,7 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icons.qrc">
+         <iconset>
           <normaloff>:/icons/icons/alarm-clock.png</normaloff>:/icons/icons/alarm-clock.png</iconset>
         </property>
         <property name="iconSize">
@@ -784,7 +770,7 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icons.qrc">
+         <iconset>
           <normaloff>:/icons/icons/flash.png</normaloff>:/icons/icons/flash.png</iconset>
         </property>
         <property name="iconSize">
@@ -871,7 +857,7 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icons.qrc">
+         <iconset>
           <normaloff>:/icons/icons/folder.png</normaloff>:/icons/icons/folder.png</iconset>
         </property>
         <property name="flat">

@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
 
 	VideoEnncoder w;
 	w.show();
-
+	videoinfoWidget v;
+	//v.show();
 	return a.exec();
 }

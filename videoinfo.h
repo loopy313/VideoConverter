@@ -6,9 +6,15 @@ class videoInfo
 {
 private:
 	char* filename;
-public:
+	//QString filename;
+	QString mediaFormt;
 	videoInfo(QString filename);
-	qint64 getDuration();
+	videoInfo(videoInfo& src);
+	void operator=(videoInfo const&);
+public:
+	static videoInfo* videoInfoManager;
+	//static videoInfo *getInstance();
+	qint64 Duration();
 	int ExtractThumbnail();
 };
 
