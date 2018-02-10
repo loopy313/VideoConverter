@@ -5,9 +5,9 @@
 #include<QSignalMapper>
 #include<QObjectList>
 #include<QLayout>
-
-#include "videoinfo.h"
-#include "ffmpegtest.h"
+#include<QStringList>
+#include<QSharedPointer>
+#include "videoinfowidget.h"
 
 class QPushButton;
 class videoinfoWidget;
@@ -21,20 +21,17 @@ class VideoEnncoder : public QWidget
 private:
 	Ui::VideoEnncoder *ui;
 	QSignalMapper* signalMapper;
-	QRect baseSize;
 	QPushButton* RestoreBtn;
 	QSize windowsize;
 	int idx;
 	QRect Screen;
 	QLayoutItem* replaceBtn;
-private:
-	QStringList fileList;
-	QObjectList menuList;
 	QPoint m_pos;
 	QVBoxLayout* vBoxlayout=nullptr;
-	QList<videoinfoWidget*> lists;
-
+	QVector<videoinfoWidget*> widgetlists;
+private:
 public:
+	QStringList fileList;
 	explicit VideoEnncoder(QWidget *parent = 0);
 	~VideoEnncoder();	
 signals:

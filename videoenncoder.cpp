@@ -10,7 +10,7 @@ VideoEnncoder::VideoEnncoder(QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::VideoEnncoder),
 	signalMapper(new QSignalMapper(this))
-{	
+{
 	setWindowFlags(Qt::FramelessWindowHint);
 	ui->setupUi(this);
 
@@ -39,7 +39,7 @@ VideoEnncoder::VideoEnncoder(QWidget *parent) :
 	connect(RestoreBtn,SIGNAL(clicked(bool)),this,SLOT(showNormal()));
 	connect(signalMapper,SIGNAL(mapped(int)),this,SLOT(stackSelect(int)));
 	connect(ui->AddFileBtn,&QPushButton::clicked,this,&VideoEnncoder::findFiles);
-	connect(this,&VideoEnncoder::fileListChanged,&VideoEnncoder::extractThumbnail);
+	connect(this,&VideoEnncoder::fileListChanged,&VideoEnncoder::showVideoInfo);
 	connect(ui->ConvertingDilsplayBtn,&QPushButton::clicked,this,&VideoEnncoder::showVideoInfo);
 }
 
@@ -52,28 +52,30 @@ void VideoEnncoder::findFiles()
 {
 	fileList=QFileDialog::getOpenFileNames(this,tr("files explorer"),"d:/EdgeDownload",tr("Video Files (*.mp4 *.mkv *.avi)"));
 
-	emit fileListChanged();
+	if(!fileList.isEmpty())
+		emit fileListChanged();
 }
 
 void VideoEnncoder::showVideoInfo()
 {
+	//QThread thread(this);
 	delete ui->verticalLayout_4;
 	if(!vBoxlayout)
 	{
-		vBoxlayout=new QVBoxLayout();
+		vBoxlayout=new QVBoxLayout(this);
+		vBoxlayout->addSpacing(5);
 	}
-	for(int i=0;i<5;i++)
+	for(auto& f : fileList)
 	{
-		videoinfoWidget* v=new videoinfoWidget(this);
-		lists.push_back(v);
+		widgetlists.push_back(new videoinfoWidget(f,this));
 	}
-	for(auto& l:lists)
+	for(auto& l:widgetlists)
 	{
+		l->setUiInfo();
 		vBoxlayout->addWidget(l);
 	}
 	ui->scrollAreaWidgetContents->setLayout(vBoxlayout);
 }
-
 void VideoEnncoder::extractThumbnail()
 {
 	ffmpegTest test(fileList);
@@ -87,7 +89,7 @@ void VideoEnncoder::stackSelect(int num)
 }
 
 void VideoEnncoder::changeEvent(QEvent *event)
-{ 
+{
 	QWindowStateChangeEvent* e = static_cast< QWindowStateChangeEvent* >( event );
 	if(event->type()==QEvent::WindowStateChange)
 	{

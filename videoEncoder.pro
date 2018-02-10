@@ -31,13 +31,17 @@ SOURCES += \
         videoenncoder.cpp \
         videoinfo.cpp \
     ffmpegtest.cpp \
-    videoinfowidget.cpp
+    videoinfowidget.cpp \
+    videoprocess.cpp \
+    videoinfo_thread.cpp
 
 HEADERS += \
         videoenncoder.h \
         videoinfo.h \
     ffmpegtest.h \
-    videoinfowidget.h
+    videoinfowidget.h \
+    videoprocess.h \
+    videoinfo_thread.h
 
 FORMS += \
     videoenncoder.ui \
