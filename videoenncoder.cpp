@@ -5,6 +5,9 @@
 #include<QFileDialog>
 #include<QDesktopWidget>
 #include<Windows.h>
+#include<QDebug>
+#include<QTimer>
+#include<QScrollBar>
 
 VideoEnncoder::VideoEnncoder(QWidget *parent) :
 	QWidget(parent),
@@ -13,8 +16,9 @@ VideoEnncoder::VideoEnncoder(QWidget *parent) :
 {
 	setWindowFlags(Qt::FramelessWindowHint);
 	ui->setupUi(this);
-
-
+	Screen=QApplication::desktop()->screenGeometry();
+	windowsize=this->size();
+	verticalScroll=ui->listWidget->verticalScrollBar();
 	RestoreBtn=new QPushButton(ui->title);
 	QIcon restoreIcon;
 	restoreIcon.addFile(QStringLiteral(":/icons/restore.png"));
@@ -22,8 +26,6 @@ VideoEnncoder::VideoEnncoder(QWidget *parent) :
 	RestoreBtn->setIcon(restoreIcon);
 	RestoreBtn->setFlat(true);
 	RestoreBtn->hide();
-	windowsize=this->size();
-	Screen = QApplication::desktop()->screenGeometry(this);
 
 	for(int i=0;i<ui->baseIcons->children().count();++i)
 	{
@@ -31,16 +33,19 @@ VideoEnncoder::VideoEnncoder(QWidget *parent) :
 		connect(mainbtn,SIGNAL(clicked(bool)),signalMapper,SLOT(map()));
 		signalMapper->setMapping(mainbtn,i);
 	}
-
 	ui->title->installEventFilter(this);
 	ui->baseIcons->installEventFilter(this);
 	ui->titleIcons->installEventFilter(this);
+	ui->listWidget->installEventFilter(this);
 
 	connect(RestoreBtn,SIGNAL(clicked(bool)),this,SLOT(showNormal()));
 	connect(signalMapper,SIGNAL(mapped(int)),this,SLOT(stackSelect(int)));
 	connect(ui->AddFileBtn,&QPushButton::clicked,this,&VideoEnncoder::findFiles);
-	connect(this,&VideoEnncoder::fileListChanged,&VideoEnncoder::showVideoInfo);
 	connect(ui->ConvertingDilsplayBtn,&QPushButton::clicked,this,&VideoEnncoder::showVideoInfo);
+	connect(ui->listWidget,SIGNAL(itemEntered(QListWidgetItem*)),this,SLOT(entereditem(QListWidgetItem*)));
+
+	connect(this,&VideoEnncoder::fileListChanged,&VideoEnncoder::showVideoInfo);
+	connect(ui->ConvertedDisplayBtn,&QPushButton::clicked,ui->listWidget,&QListWidget::clear);
 }
 
 VideoEnncoder::~VideoEnncoder()
@@ -50,42 +55,52 @@ VideoEnncoder::~VideoEnncoder()
 
 void VideoEnncoder::findFiles()
 {
-	fileList=QFileDialog::getOpenFileNames(this,tr("files explorer"),"d:/EdgeDownload",tr("Video Files (*.mp4 *.mkv *.avi)"));
+	QStringList files;
+	files=QFileDialog::getOpenFileNames(this,tr("files explorer"),"d:/EdgeDownload",tr("Video Files (*.mp4 *.mkv *.avi)"));
 
-	if(!fileList.isEmpty())
+	if(!files.isEmpty())
+	{
+		fileList+=files;
 		emit fileListChanged();
+	}
 }
 
 void VideoEnncoder::showVideoInfo()
 {
-	//QThread thread(this);
-	delete ui->verticalLayout_4;
-	if(!vBoxlayout)
+
+	for(int i=this->lastIdx;i<fileList.count();++i)
 	{
-		vBoxlayout=new QVBoxLayout(this);
-		vBoxlayout->addSpacing(5);
+		listitems.push_back(new QListWidgetItem(ui->listWidget));
+		widgetlists.push_back(new videoinfoWidget(fileList[i],this));
+
 	}
-	for(auto& f : fileList)
+	for(int i=this->lastIdx;i<widgetlists.count();++i)
 	{
-		widgetlists.push_back(new videoinfoWidget(f,this));
+		widgetlists[i]->setUiInfo();
 	}
-	for(auto& l:widgetlists)
+	for(int i=this->lastIdx;i<fileList.count();++i)
 	{
-		l->setUiInfo();
-		vBoxlayout->addWidget(l);
+		listitems[i]->setSizeHint(widgetlists[i]->size());
+		ui->listWidget->setItemWidget(listitems[i],widgetlists[i]);
 	}
-	ui->scrollAreaWidgetContents->setLayout(vBoxlayout);
-}
-void VideoEnncoder::extractThumbnail()
-{
-	ffmpegTest test(fileList);
-	test.Thumbnail_to_Jpeg();
+	this->lastIdx=fileList.count();
 }
 
 void VideoEnncoder::stackSelect(int num)
 {
 	ui->stackedWidget->setCurrentIndex(num);
 	ui->stackedWidget->show();
+}
+
+void VideoEnncoder::entereditem(QListWidgetItem *item)
+{
+	if(temp)
+	{
+		temp->leavewindow();
+		temp=nullptr;
+	}
+	static_cast<videoinfoWidget*>(ui->listWidget->itemWidget(item))->enterwindow();
+	temp=static_cast<videoinfoWidget*>(ui->listWidget->itemWidget(item));
 }
 
 void VideoEnncoder::changeEvent(QEvent *event)
@@ -112,15 +127,17 @@ void VideoEnncoder::changeEvent(QEvent *event)
 	}
 }
 
+//title window's style sheet ignored,if return true;
 bool VideoEnncoder::eventFilter(QObject *watched, QEvent *event)
 {
 	if(watched==ui->titleIcons || watched==ui->baseIcons)
 	{
-		if(event->type()==QEvent::MouseButtonPress || event->type()==QEvent::MouseMove || event->type()==QEvent::MouseButtonDblClick)
+		if(event->type()==QEvent::MouseMove || event->type()==QEvent::MouseButtonDblClick)
 		{
 			QMouseEvent* mouseEvent=static_cast<QMouseEvent*>(event);
 			//It's not propagated to the parent.
 			mouseEvent->accept();
+			return true;
 		}
 	}
 	else if(watched==ui->title)
@@ -132,7 +149,7 @@ bool VideoEnncoder::eventFilter(QObject *watched, QEvent *event)
 			QMouseEvent* mouseEvent=static_cast<QMouseEvent*>(event);
 			if(mouseEvent->button() == Qt::LeftButton)
 			{
-				if(this->windowState()==Qt::WindowMaximized)
+				if(this->windowState()&Qt::WindowMaximized)
 				{
 					MoveFrom=mouseEvent->globalPos();
 					mouseEvent->accept();
@@ -148,7 +165,8 @@ bool VideoEnncoder::eventFilter(QObject *watched, QEvent *event)
 
 			if(mouseEvent->buttons()&Qt::LeftButton)
 			{
-				if(this->windowState()==Qt::WindowMaximized)
+				//window move(max->normal). use only on single monitor.
+				if(this->windowState()&Qt::WindowMaximized)
 				{
 					int topleft_x;
 					int topleft_y;
@@ -156,17 +174,17 @@ bool VideoEnncoder::eventFilter(QObject *watched, QEvent *event)
 					this->setWindowState(this->windowState() ^ Qt::WindowMaximized);
 					MoveTo=mouseEvent->globalPos();
 
-					if(windowsize.width()/2+MoveTo.x()>=Screen.topRight().x())
+					if(windowsize.width()/2+MoveTo.x()>=Screen.topRight().x())//right
 					{
 						topleft_x=Screen.topRight().x()-windowsize.width();
 						bias=QPoint(-5,5);
 					}
-					else if(MoveFrom.x()-windowsize.width()/2>=Screen.topLeft().x())
+					else if(MoveFrom.x()-windowsize.width()/2>=Screen.topLeft().x())//left
 					{
 						topleft_x=MoveTo.x()-windowsize.width()/2;
 						bias=QPoint(0,5);
 					}
-					else if(MoveFrom.x()<=windowsize.width()/2)
+					else if(MoveFrom.x()<=windowsize.width()/2)//center
 					{
 						topleft_x=Screen.topLeft().x();
 						bias=QPoint(5,5);
@@ -196,8 +214,14 @@ bool VideoEnncoder::eventFilter(QObject *watched, QEvent *event)
 			mouseEvent->accept();
 		}
 	}
+	else if(watched==ui->listWidget)
+	{
+		if(event->type()==QEvent::Resize)
+		{
+			verticalScroll->setValue(0);
+		}
+	}
 	return false;
-
 }
 
 
@@ -261,8 +285,10 @@ bool VideoEnncoder::nativeEvent(const QByteArray &eventType, void *message, long
 		}
 	}
 	return false;
-
 }
+
+
+
 
 
 

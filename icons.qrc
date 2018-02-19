@@ -1,5 +1,7 @@
 <RCC>
   <qresource>
+    <file>icons/play-button (1).png</file>
+    <file>icons/play-button.png</file>
     <file>icons/edit (4).png</file>
     <file>icons/edit (3).png</file>
     <file>icons/controls (1).png</file>

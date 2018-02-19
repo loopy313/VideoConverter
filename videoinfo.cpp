@@ -20,11 +20,14 @@ videoInfo &videoInfo::getInstance()
 }
 */
 
-videoInfo::videoInfo(QString filename):fileinfo(filename)
+videoInfo::videoInfo(QString filename):
+	fileinfo(filename)
 {
-	QByteArray temp=filename.toUtf8().data();
-	this->_filename=new char[temp.size()];
-	strcpy_s(this->_filename,strlen(this->_filename),temp.data());
+	img=QImage(width,height,QImage::Format_RGB888);
+	QByteArray temp=filename.toUtf8();
+	const char* str=temp.data();
+	this->_filename=const_cast<char*>(str);
+
 	av_register_all();
 	pFormatCtx=avformat_alloc_context();
 	if(avformat_open_input(&pFormatCtx, this->_filename, NULL, NULL)!=0)
@@ -36,13 +39,11 @@ videoInfo::videoInfo(QString filename):fileinfo(filename)
 	{
 		qDebug()<<"can't find stream";
 	}
-	av_dump_format(pFormatCtx, -1, this->_filename, 0);
-	setVideoStream();
+	setVideoCodecContext();
 }
 
-void videoInfo::setVideoStream()
+void videoInfo::setVideoCodecContext()
 {
-	AVStream* pAvStream;
 	videoStreamIdx = -1;
 	for (unsigned int i=0;i<pFormatCtx->nb_streams;i++)
 	{
@@ -52,32 +53,86 @@ void videoInfo::setVideoStream()
 			break;
 		}
 	}
-
 	if ( videoStreamIdx == -1 )
 	{
 		qDebug()<<"not find videoStream";
 	}
-
-	pAvStream = pFormatCtx->streams[videoStreamIdx];
-	videostream=pAvStream;
+	pVCodecContext=pFormatCtx->streams[videoStreamIdx]->codec;
 }
 
-/*
-void videoInfo::initialize(QString filename)
+QPixmap& videoInfo::getThumbnail()
 {
-
+	return p=QPixmap::fromImage(img);
 }
-*/
+
 void videoInfo::ExtractThumbnail()
 {
+	AVFrame         *pFrame;
+	AVCodec         *pCodec;
+	int             numBytes;
+	AVPacket        packet;
+	int             frameFinished;
+	int				videoStream=videoStreamIdx;
+	SwsContext*		img_convert_ctx=nullptr;
+	uint8_t *buffer=nullptr;
 
+	pCodec = avcodec_find_decoder(pVCodecContext->codec_id);
+	if ( pCodec == NULL )
+	{
+		qDebug()<<"decoder not found";
+	}
+
+	if( avcodec_open2(pVCodecContext, pCodec, NULL) <0 )
+	{
+		qDebug()<<"codec open error";
+	}
+
+	pFrame = av_frame_alloc();
+	if( pFrame == NULL )
+	{
+		qDebug()<<"frame alloc error";
+	}
+
+	pFrameRGB = av_frame_alloc();
+	if( pFrameRGB == NULL )
+	{
+		qDebug()<<"frame alloc error";
+	}
+	numBytes=av_image_get_buffer_size(AV_PIX_FMT_RGB24,width,height,1);
+	buffer = (uint8_t*)av_malloc(numBytes);
+
+	av_image_fill_arrays(pFrameRGB->data,pFrameRGB->linesize,buffer,AV_PIX_FMT_RGB24,width,height,1);
+
+	img_convert_ctx = sws_getContext(pVCodecContext->width, pVCodecContext->height,
+									 pVCodecContext->pix_fmt, width, height, AV_PIX_FMT_RGB24, SWS_BILINEAR, NULL, NULL, NULL);
+	if (!img_convert_ctx )
+	{
+		qDebug()<<"getCachedContext failed.";
+	}
+	while(av_read_frame(pFormatCtx, &packet) >= 0 )
+	{
+		if(packet.stream_index == videoStream )
+		{
+			avcodec_decode_video2(pVCodecContext, pFrame, &frameFinished, &packet);
+			if ( frameFinished )
+			{
+				sws_scale(img_convert_ctx, (const uint8_t* const*)pFrame->data, pFrame->linesize, 0, pVCodecContext->height,
+						  pFrameRGB->data, pFrameRGB->linesize);
+
+				for( int y = 0; y<height; ++y )
+				{
+					memcpy(img.scanLine(y), pFrameRGB->data[0]+(y*pFrameRGB->linesize[0]), pFrameRGB->linesize[0]);
+				}
+				break;
+			}
+		}
+	}
 }
-
 void videoInfo::setDuration()
 {
 	int toSecond=pFormatCtx->duration/1000/1000;
 	int hour=toSecond/3600;
-	int minute=(toSecond-hour)/60;
+	int minute=(toSecond-(hour*3600))/60;
 	int second=toSecond%60;
 	duration=QTime(hour,minute,second);
 }
@@ -88,11 +143,24 @@ QString videoInfo::getDuration()
 	return duration.toString("hh:mm:ss");
 }
 
+void videoInfo::setdisplaySize()
+{
+	screensize.setHeight(pVCodecContext->height);
+	screensize.setWidth(pVCodecContext->width);
+
+}
+
+QString videoInfo::getdisplaySize()
+{
+	return QString("%1*%2").arg(QString::number(screensize.width()),QString::number(screensize.height()));
+}
+
 void videoInfo::setvideoFormat()
 {
 	videoformat=fileinfo.suffix();
 	if(videoformat.isEmpty())
 		videoformat=QString("UnKnown");
+
 }
 
 QString videoInfo::getvideoFormat()
@@ -103,6 +171,7 @@ QString videoInfo::getvideoFormat()
 void videoInfo::setfileSize()
 {
 	filesize=fileinfo.size();
+
 }
 
 QString videoInfo::getfileSize()
@@ -126,16 +195,6 @@ QString videoInfo::getfileSize()
 	}
 }
 
-void videoInfo::setdisplaySize()
-{
-	screensize.setHeight(videostream->codec->height);
-	screensize.setWidth(videostream->codec->width);
-}
-
-QString videoInfo::getdisplaySize()
-{
-	return QString("%1*%2").arg(QString::number(screensize.width()),QString::number(screensize.height()));
-}
 
 void videoInfo::setfileName()
 {
@@ -146,5 +205,3 @@ QString videoInfo::getfileName()
 {
 	return filename;
 }
-
-

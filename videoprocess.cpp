@@ -15,81 +15,11 @@ videoProcess::videoProcess()
 
 int videoProcess::extractThumbnail(const char* _filename)
 {
-	AVFormatContext *pFormatCtx = NULL;
-	int             videoStream;
-	unsigned int	i;
-	AVCodecContext  *pCodecCtx;
-	AVCodec         *pCodec;
-	AVFrame         *pFrame;
-	AVFrame         *pFrameRGB;
-	int             numBytes;
-	uint8_t         *buffer;
-	AVPacket        packet;
-	int             frameFinished;
-	struct SwsContext *img_convert_ctx = NULL;
 
-	if(avformat_open_input(&pFormatCtx, _filename, NULL, NULL)!=0)
-	{
-		printf("can not open");
-		return -1;
-	}
+	int numBytes;
 
-	if(avformat_find_stream_info(pFormatCtx, NULL) <0)
-	{
-		printf("can not find");
-		return -1;
-	}
-
-	av_dump_format(pFormatCtx, -1, _filename, 0);
-
-	videoStream = -1;
-	for (i=0;i<pFormatCtx->nb_streams;i++)
-	{
-		if( pFormatCtx->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO)
-		{
-			videoStream = i;
-			break;
-		}
-	}
-
-	if ( videoStream == -1 )
-	{
-		printf("not find videoStream");
-		return -1;
-	}
-
-	pCodecCtx = pFormatCtx->streams[videoStream]->codec;
-
-	pCodec = avcodec_find_decoder(pCodecCtx->codec_id);
-	if ( pCodec == NULL )
-	{
-		return -1;
-	}
-
-	if( avcodec_open2(pCodecCtx, pCodec, NULL) <0 )
-	{
-		return -1;
-	}
-
-	pFrame = av_frame_alloc();
-	if( pFrame == NULL )
-	{
-		return -1;
-	}
-
-	pFrameRGB = av_frame_alloc();
-	if( pFrameRGB == NULL )
-	{
-		return -1;
-	}
-
-	numBytes = avpicture_get_size(AV_PIX_FMT_BGR24, pCodecCtx->width, pCodecCtx->height);
-
-	buffer = (uint8_t*)av_malloc(numBytes);
-
+	numBytes = avpicture_get_size(AV_PIX_FMT_BGR24, ->width, pCodecCtx->height);
 	avpicture_fill((AVPicture *)pFrameRGB, buffer, AV_PIX_FMT_BGR24, pCodecCtx->width, pCodecCtx->height);
-
-
 	img_convert_ctx = sws_getCachedContext(img_convert_ctx, pCodecCtx->width, pCodecCtx->height,
 										   pCodecCtx->pix_fmt, pCodecCtx->width, pCodecCtx->height, AV_PIX_FMT_YUVJ420P, SWS_BILINEAR, NULL, NULL, NULL);
 

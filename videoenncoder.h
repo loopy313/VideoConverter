@@ -7,10 +7,14 @@
 #include<QLayout>
 #include<QStringList>
 #include<QSharedPointer>
+#include<QListWidget>
+#include<QListWidgetItem>
+#include<QVector>
 #include "videoinfowidget.h"
 
 class QPushButton;
 class videoinfoWidget;
+class QDesktopWidget;
 namespace Ui {
 class VideoEnncoder;
 }
@@ -19,6 +23,7 @@ class VideoEnncoder : public QWidget
 {
 	Q_OBJECT
 private:
+	int lastIdx=0;
 	Ui::VideoEnncoder *ui;
 	QSignalMapper* signalMapper;
 	QPushButton* RestoreBtn;
@@ -28,8 +33,11 @@ private:
 	QLayoutItem* replaceBtn;
 	QPoint m_pos;
 	QVBoxLayout* vBoxlayout=nullptr;
+	videoinfoWidget* temp=nullptr;
 	QVector<videoinfoWidget*> widgetlists;
-private:
+	QVector<QListWidgetItem*> listitems;
+	QScrollBar* verticalScroll;
+	int vmax;
 public:
 	QStringList fileList;
 	explicit VideoEnncoder(QWidget *parent = 0);
@@ -39,8 +47,8 @@ signals:
 public slots:
 	void findFiles();
 	void showVideoInfo();
-	void extractThumbnail();
 	void stackSelect(int num);
+	void entereditem(QListWidgetItem* item);
 protected:
 	void changeEvent(QEvent* event);
 	bool eventFilter(QObject *watched, QEvent *event);

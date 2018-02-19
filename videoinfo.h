@@ -4,7 +4,8 @@
 #include<QSize>
 #include<QFileInfo>
 #include<QTime>
-
+#include<QImage>
+#include<QPixmap>
 extern "C"{
 #include<libavcodec/avcodec.h>
 #include<libavformat/avformat.h>
@@ -14,13 +15,12 @@ extern "C"{
 class videoInfo
 {
 private:
-	void setVideoStream();
+	void setVideoCodecContext();
 private:
 	char* _filename=nullptr;
 	AVFormatContext *pFormatCtx = nullptr;
-	AVStream* videostream;
+	AVCodecContext* pVCodecContext=nullptr;
 	int videoStreamIdx;
-	int audioStream;
 	QString filename;
 	QString videoformat;
 	QSize screensize;
@@ -28,16 +28,14 @@ private:
 	quint64 filesize;
 	QString subtitle;
 	QFileInfo fileinfo;
+	AVFrame *pFrameRGB;
+	QPixmap p;
+	QImage img;
+	const int width=180,height=100;
 public:
 	videoInfo(QString filename);
-	//~videoInfo();
-	//static videoInfo& getInstance();
-	//videoInfo(videoInfo const& src)=delete;
-	//videoInfo(videoInfo&& src)=delete;
-	//void operator=(videoInfo const& src)=delete;
-	//void operator=(videoInfo&& src)=delete;
-	//void initialize(QString filename);
 	void ExtractThumbnail();
+	QPixmap& getThumbnail();
 	void setDuration();
 	QString getDuration();
 	void setvideoFormat();
@@ -48,7 +46,7 @@ public:
 	QString getdisplaySize();
 	void setfileName();
 	QString getfileName();
-
+	//~videoInfo();
 };
 
 #endif // VIDEOINFO_H

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1180</width>
-    <height>170</height>
+    <width>1200</width>
+    <height>168</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,15 +18,18 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>1180</width>
-    <height>170</height>
+    <width>1200</width>
+    <height>0</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>1180</width>
-    <height>170</height>
+    <width>2000</width>
+    <height>168</height>
    </size>
+  </property>
+  <property name="mouseTracking">
+   <bool>true</bool>
   </property>
   <property name="windowTitle">
    <string>Form</string>
@@ -37,10 +40,21 @@ background-color: #3d393a;
 color:rgb(214, 214, 214);
 }
 
+QComboBox::dropdown{
+color: rgb(85, 85, 85);
+}
+
+
 </string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_3">
-   <item row="0" column="0">
+  <layout class="QHBoxLayout" name="horizontalLayout_17">
+   <property name="topMargin">
+    <number>3</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <item>
     <widget class="QWidget" name="widget_8" native="true">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
@@ -100,13 +114,13 @@ color:rgb(214, 214, 214);
          <string notr="true">background-color: rgb(255, 255, 255);</string>
         </property>
         <layout class="QGridLayout" name="gridLayout_4">
-         <item row="0" column="0">
+         <item row="1" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
           <widget class="QLabel" name="label_2">
            <property name="text">
-            <string>TextLabel</string>
+            <string/>
            </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
+           <property name="pixmap">
+            <pixmap>D:/image/ocean.jpg</pixmap>
            </property>
           </widget>
          </item>
@@ -265,7 +279,7 @@ color:rgb(214, 214, 214);
      </layout>
     </widget>
    </item>
-   <item row="0" column="1">
+   <item>
     <widget class="QWidget" name="widget_11" native="true">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
@@ -275,13 +289,13 @@ color:rgb(214, 214, 214);
      </property>
      <property name="minimumSize">
       <size>
-       <width>370</width>
+       <width>350</width>
        <height>150</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>370</width>
+       <width>350</width>
        <height>150</height>
       </size>
      </property>
@@ -308,24 +322,48 @@ color:rgb(214, 214, 214);
         </property>
         <property name="minimumSize">
          <size>
-          <width>370</width>
+          <width>350</width>
           <height>30</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>370</width>
+          <width>350</width>
           <height>30</height>
          </size>
         </property>
-        <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
           <widget class="QLineEdit" name="srcFilename">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Maximum" vsizetype="Minimum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>320</width>
+             <height>18</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>340</width>
+             <height>18</height>
+            </size>
+           </property>
            <property name="text">
             <string>Text</string>
            </property>
            <property name="frame">
             <bool>false</bool>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -334,9 +372,12 @@ color:rgb(214, 214, 214);
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Preferred</enum>
+           </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>170</width>
+             <width>23</width>
              <height>9</height>
             </size>
            </property>
@@ -355,13 +396,13 @@ color:rgb(214, 214, 214);
         </property>
         <property name="minimumSize">
          <size>
-          <width>370</width>
+          <width>350</width>
           <height>75</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>370</width>
+          <width>350</width>
           <height>75</height>
          </size>
         </property>
@@ -641,13 +682,13 @@ color:rgb(214, 214, 214);
         </property>
         <property name="minimumSize">
          <size>
-          <width>370</width>
+          <width>350</width>
           <height>30</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>370</width>
+          <width>350</width>
           <height>30</height>
          </size>
         </property>
@@ -687,55 +728,65 @@ color:rgb(214, 214, 214);
      </layout>
     </widget>
    </item>
-   <item row="0" column="2">
-    <spacer name="horizontalSpacer_7">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_6">
+     <property name="spacing">
+      <number>0</number>
      </property>
-     <property name="sizeType">
-      <enum>QSizePolicy::Preferred</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>24</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
+     <item>
+      <spacer name="horizontalSpacer_7">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>13</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:transparent</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="icons.qrc">:/icons/right-arrow (1).png</pixmap>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_8">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>13</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
-   <item row="0" column="3">
-    <widget class="QLabel" name="label">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="pixmap">
-      <pixmap resource="icons.qrc">:/icons/right-arrow (1).png</pixmap>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="4">
-    <spacer name="horizontalSpacer_8">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeType">
-      <enum>QSizePolicy::Preferred</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>24</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="0" column="5">
+   <item>
     <widget class="QWidget" name="widget_12" native="true">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
@@ -745,13 +796,13 @@ color:rgb(214, 214, 214);
      </property>
      <property name="minimumSize">
       <size>
-       <width>370</width>
+       <width>350</width>
        <height>150</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>370</width>
+       <width>350</width>
        <height>150</height>
       </size>
      </property>
@@ -778,35 +829,71 @@ color:rgb(214, 214, 214);
         </property>
         <property name="minimumSize">
          <size>
-          <width>370</width>
+          <width>350</width>
           <height>30</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>370</width>
+          <width>350</width>
           <height>30</height>
          </size>
         </property>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
           <widget class="QLineEdit" name="destFilename">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>300</width>
+             <height>18</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>300</width>
+             <height>18</height>
+            </size>
+           </property>
            <property name="text">
             <string>Text</string>
            </property>
            <property name="frame">
             <bool>false</bool>
            </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
          <item>
-          <widget class="QToolButton" name="toolButton">
+          <widget class="QToolButton" name="editBtn">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>18</width>
+             <height>18</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>18</width>
+             <height>18</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">border-top:0</string>
+           </property>
            <property name="text">
             <string>...</string>
            </property>
@@ -818,19 +905,6 @@ color:rgb(214, 214, 214);
             <bool>true</bool>
            </property>
           </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_3">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
          </item>
         </layout>
        </widget>
@@ -845,13 +919,13 @@ color:rgb(214, 214, 214);
         </property>
         <property name="minimumSize">
          <size>
-          <width>370</width>
+          <width>350</width>
           <height>75</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>370</width>
+          <width>350</width>
           <height>75</height>
          </size>
         </property>
@@ -1131,13 +1205,13 @@ color:rgb(214, 214, 214);
         </property>
         <property name="minimumSize">
          <size>
-          <width>370</width>
+          <width>350</width>
           <height>40</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>370</width>
+          <width>350</width>
           <height>40</height>
          </size>
         </property>
@@ -1166,11 +1240,22 @@ color:rgb(214, 214, 214);
             </size>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(102, 102, 102);</string>
+            <string notr="true">background-color: rgb(102, 102, 102);
+</string>
            </property>
            <property name="frame">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
+           <item>
+            <property name="text">
+             <string>test1</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>test2</string>
+            </property>
+           </item>
           </widget>
          </item>
          <item>
@@ -1199,6 +1284,16 @@ color:rgb(214, 214, 214);
            <property name="frame">
             <bool>false</bool>
            </property>
+           <item>
+            <property name="text">
+             <string>test1</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>test2</string>
+            </property>
+           </item>
           </widget>
          </item>
          <item>
@@ -1220,41 +1315,147 @@ color:rgb(214, 214, 214);
      </layout>
     </widget>
    </item>
-   <item row="0" column="6">
-    <widget class="QPushButton" name="ConvertBtn">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_7">
+     <item>
+      <spacer name="horizontalSpacer_9">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>18</width>
+         <height>17</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ConvertBtn">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>40</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>40</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Convert</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_4">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetFixedSize</enum>
      </property>
-     <property name="minimumSize">
-      <size>
-       <width>100</width>
-       <height>40</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>100</width>
-       <height>40</height>
-      </size>
-     </property>
-     <property name="font">
-      <font>
-       <family>Arial</family>
-       <pointsize>14</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Convert</string>
-     </property>
-    </widget>
+     <item>
+      <widget class="QPushButton" name="closeBtn">
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="icons.qrc">
+         <normaloff>:/icons/close.png</normaloff>:/icons/close.png</iconset>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <spacer name="verticalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>13</width>
+         <height>116</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
  <resources>
   <include location="icons.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>editBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>destFilename</receiver>
+   <slot>selectAll()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1018</x>
+     <y>33</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>923</x>
+     <y>28</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>editBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>destFilename</receiver>
+   <slot>setFocus()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1018</x>
+     <y>33</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>929</x>
+     <y>27</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

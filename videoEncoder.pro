@@ -32,7 +32,6 @@ SOURCES += \
         videoinfo.cpp \
     ffmpegtest.cpp \
     videoinfowidget.cpp \
-    videoprocess.cpp \
     videoinfo_thread.cpp
 
 HEADERS += \
@@ -40,12 +39,12 @@ HEADERS += \
         videoinfo.h \
     ffmpegtest.h \
     videoinfowidget.h \
-    videoprocess.h \
     videoinfo_thread.h
 
 FORMS += \
     videoenncoder.ui \
-    videoinfowidget.ui
+    videoinfowidget.ui \
+    form.ui
 
 RESOURCES += \
     icons.qrc
